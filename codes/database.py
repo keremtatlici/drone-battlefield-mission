@@ -24,3 +24,13 @@ anka_frame_obj =None
 tracker = None
 
 prev_frame_obj = frameClass(temp_img)
+
+first_mission = False
+second_mission=False
+
+error_message="hatalı mesaj"
+ip = "192.168.137.196"
+
+liveframe = None
+normalframe = None
+telemetri = None

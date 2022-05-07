@@ -10,7 +10,7 @@ import copy
 def main(aslan_frame_obj, anka_frame_obj, view_frame_obj):
     #print(db.prev_frame_obj.logo_label)
     #print(db.prev_frame_obj.is_logo_bbox_at_center)
-    print("##############################")
+    #print("##############################")
     if db.prev_frame_obj.logo_label is not "nolabel" and db.prev_frame_obj.is_logo_bbox_at_center:
         view_frame_obj.logo_label = db.prev_frame_obj.logo_label
         tracker.main(view_frame_obj)
@@ -31,6 +31,7 @@ def draw_bbox(view_frame_obj):
         color = (255, 100, 0) if view_frame_obj.logo_label == 'friendly' else (100, 0, 255)
         if len(logo_bbox.shape) == 3:
             cv2.polylines(view_frame_obj.frame, [logo_bbox], True, color, 1, cv2.LINE_AA)
+            #print(view_frame_obj.logo_feature_count)
         else:
             cv2.rectangle(view_frame_obj.frame, (logo_bbox[0], logo_bbox[1]), (logo_bbox[2], logo_bbox[3]),(255, 0, 255), 2)
 
@@ -41,9 +42,9 @@ def draw_bbox(view_frame_obj):
 
 def create_logo_obj():
     logo_feature_detector = logo_detection.surf(
-        hessianThreshold=400,
+        hessianThreshold=300,
         nOctaves=4,
-        nOctaveLayers=10,
+        nOctaveLayers=4,
         extended=True,
         keypointsRatio= 0.01,
         upright=False

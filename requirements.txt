@@ -1,12 +1,15 @@
-pydub
+#pydub
 #sudo apt-get install python3-pyaudio
-pyaudio
-pulsectl
+#pyaudio
+#pulsectl
 #sudo apt-get install automake autoconf libtool bison swig
 #sudo snap install pulseaudio
 #sudo apt-get install pocketsphinx
 #sudo apt-get install libpulse-dev libasound2-dev
-PocketSphinx
-opencv-python==4.5.5.64
+#PocketSphinx
+#opencv-python==4.5.5.64
 #sudo apt-get install libgeos-dev
 shapely==1.8.2
+#sudo apt-get install libxml2-dev libxslt-dev python-dev
+#sudo apt-get install libxml2-dev libxslt1-dev cython3
+dronekit==2.9.2

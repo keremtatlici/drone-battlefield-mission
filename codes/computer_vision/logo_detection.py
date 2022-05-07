@@ -9,9 +9,9 @@ import traceback
 def main(aslan_frame_obj, anka_frame_obj, view_frame_obj):
 
     view_feature_detector = surf(
-    hessianThreshold=400,
+    hessianThreshold=300,
     nOctaves=4, 
-    nOctaveLayers=2,
+    nOctaveLayers=4,
     extended=True,
     keypointsRatio=0.01, 
     upright= False           
@@ -29,7 +29,7 @@ def main(aslan_frame_obj, anka_frame_obj, view_frame_obj):
     anka_good = good_matches(anka_matches, factor=0.7)
 
     #Logo Selection
-    view_frame_obj.logo_label = logo_selection(aslan_good, anka_good, min_match_count=20)
+    view_frame_obj.logo_label = logo_selection(aslan_good, anka_good, min_match_count=15)
 
     if view_frame_obj.logo_label == 'friendly':
         view_frame_obj.logo_bbox = detect_logo_bbox(aslan_frame_obj, view_frame_obj, aslan_good)

@@ -18,7 +18,7 @@ def main(view_frame_obj):
         view_frame_obj.logo_bbox = logo_bbox
         db.prev_frame_obj = copy.copy(view_frame_obj)
         view_frame_obj.is_logo_bbox_at_center = logo_detection.is_bbox_include_coordinate(logo_bbox, view_frame_obj.center_coordinate)
-        print(view_frame_obj.is_logo_bbox_at_center)
+        #print(view_frame_obj.is_logo_bbox_at_center)
         if not view_frame_obj.is_logo_bbox_at_center:
             db.prev_frame_obj.logo_label='nolabel'
             db.tracker= None
