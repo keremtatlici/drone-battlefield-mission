@@ -8,10 +8,20 @@ import traceback
 
 def main(aslan_frame_obj, anka_frame_obj, view_frame_obj):
 
-    view_feature_detector = surf()
+    view_feature_detector = surf(
+    hessianThreshold=400,
+    nOctaves=4, 
+    nOctaveLayers=2,
+    extended=True,
+    keypointsRatio=0.01, 
+    upright= False           
+    )
 
     detect_features(view_feature_detector, view_frame_obj)
-        
+    view_kp_count = len(view_frame_obj.features['kp_cpu'])
+    #print(view_kp_count)
+    if view_kp_count < 300:
+        return
     aslan_matches = matcher(aslan_frame_obj.features['des_gpu'], view_frame_obj.features['des_gpu']) 
     anka_matches = matcher(anka_frame_obj.features['des_gpu'], view_frame_obj.features['des_gpu'])
 
@@ -19,7 +29,7 @@ def main(aslan_frame_obj, anka_frame_obj, view_frame_obj):
     anka_good = good_matches(anka_matches, factor=0.7)
 
     #Logo Selection
-    view_frame_obj.logo_label = logo_selection(aslan_good, anka_good)
+    view_frame_obj.logo_label = logo_selection(aslan_good, anka_good, min_match_count=20)
 
     if view_frame_obj.logo_label == 'friendly':
         view_frame_obj.logo_bbox = detect_logo_bbox(aslan_frame_obj, view_frame_obj, aslan_good)
@@ -100,9 +110,17 @@ def is_bbox_include_coordinate(bbox, coordinate):
     return :Bool whether coordinate inside of the poligon
     """
     bbox = np.squeeze(bbox)
+    point= Point(coordinate[0], coordinate[1])
     if bbox.shape == (4,2):
-        point= Point(coordinate[0], coordinate[1])
         polygon = Polygon([(bbox[0][0], bbox[0][1]), (bbox[1][0], bbox[1][1]), (bbox[2][0], bbox[2][1]), (bbox[3][0], bbox[3][1])])
+        return polygon.contains(point)
+    elif bbox.shape == (4,):
+
+        xmin = bbox[0]
+        ymin= bbox[1]
+        width= xmin+bbox[2]
+        height= ymin+bbox[3]
+        polygon = Polygon([(xmin, ymin), (xmin+width, ymin), (xmin+width, ymin+height), (xmin, ymin+height)])
         return polygon.contains(point)
     else:
         return False
@@ -118,3 +136,15 @@ def logo_selection(aslan_good, anka_good, min_match_count=10):
             return 'enemy'
         else:
             return 'nolabel'
+
+def make_coordinates_bbox(coordinates):
+    coordinates = np.squeeze(coordinates)
+    x_list = [coordinates[0][0], coordinates[1][0],coordinates[2][0],coordinates[3][0]]
+    y_list = [coordinates[0][1], coordinates[1][1],coordinates[2][1],coordinates[3][1]]
+    xmin = min(x_list)
+    xmax = max(x_list)
+
+    ymin = min(y_list)
+    ymax = max(y_list)
+    bbox = np.array([xmin, ymin, xmax-xmin, ymax-ymin])
+    return bbox

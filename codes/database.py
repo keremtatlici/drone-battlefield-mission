@@ -7,6 +7,7 @@ save_root_path = 'results/'
 
 aslan_path = logos_root_path+'aslan.png'
 anka_path = logos_root_path+'anka.png'
+temp_img = cv2.imread(aslan_path)
 
 view_aslan1_path = views_root_path+'aslan1.png'
 view_anka1_path = views_root_path+'anka1.png'
@@ -19,3 +20,7 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 
 aslan_frame_obj = None
 anka_frame_obj =None
+
+tracker = None
+
+prev_frame_obj = frameClass(temp_img)
