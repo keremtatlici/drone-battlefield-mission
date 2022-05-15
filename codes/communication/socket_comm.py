@@ -3,6 +3,11 @@ import socket
 import cv2
 import numpy as np
 import time
+import imutils
+import base64
+import sys
+import pickle
+import struct
 
 
 
@@ -31,17 +36,28 @@ def mission_socket():
             print("HATA")
             pass
         print(message)
-        client.send(message.encode("ascii"))
+            
 
 def liveframe_socket():
-    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind((db.ip, 9998))
-    server.listen()
-    client, client_adress = server.accept()
+    
+    server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    port = 9998
+    socket_address = (db.ip,port)
+    server.bind(socket_address)
+    server.listen(5)
+    client, address = server.accept()
 
     while True:
         if db.liveframe is not None:
-            pass
+            time.sleep(0.100) 
+            frame = db.liveframe.frame
+            width= db.liveframe.width
+            frame = imutils.resize(frame, width=320)
+            a = pickle.dumps(frame)
+            message = struct.pack("Q",len(a))+a
+            print("liveframe göndermeye çalışıyor ..")
+            client.sendall(message)            
+            print(frame.shape)
 
 def normalframe_socket():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

@@ -8,7 +8,7 @@ def gstreamer_pipeline(
     capture_height=1080,
     display_width=960,
     display_height=540,
-    framerate=15,
+    framerate=30,
     flip_method=2,
 ):
     return (
@@ -42,11 +42,11 @@ def get_video_cap(video_path):
     return video_cap, height, width
 
 def get_video_writer(video_cap, fps, path):
-    height = video_cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-    width =  video_cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-    frame_size = (width,height)
+    frame_width = int(video_cap.get(3))
+    frame_height = int(video_cap.get(4))
+    frame_size = (frame_width,frame_height)
     video_writer = cv2.VideoWriter(path, cv2.VideoWriter_fourcc('M','J','P','G'), fps, frame_size)
-    return video_writer    
+    return video_writer  
 
 def random_string(size=10):
     letters= string.ascii_letters

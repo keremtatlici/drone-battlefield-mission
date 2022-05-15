@@ -25,12 +25,15 @@ tracker = None
 
 prev_frame_obj = frameClass(temp_img)
 
-first_mission = False
+first_mission = True
 second_mission=False
 
 error_message="hatalı mesaj"
-ip = "192.168.137.196"
+ip = "192.168.137.104"
 
-liveframe = None
+liveframe = prev_frame_obj
 normalframe = None
 telemetri = None
+
+vehicle = None
+

@@ -13,3 +13,5 @@ shapely==1.8.2
 #sudo apt-get install libxml2-dev libxslt-dev python-dev
 #sudo apt-get install libxml2-dev libxslt1-dev cython3
 dronekit==2.9.2
+pyserial
+#sudo apt install libjpeg-dev zlib1g-dev
