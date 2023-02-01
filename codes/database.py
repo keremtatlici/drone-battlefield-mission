@@ -1,5 +1,6 @@
 import cv2
 from codes.computer_vision.frame_class import frameClass
+import numpy as np
 
 logos_root_path='datasets/logos/'
 views_root_path='datasets/views/'
@@ -25,15 +26,23 @@ tracker = None
 
 prev_frame_obj = frameClass(temp_img)
 
-first_mission = True
+first_mission = False
 second_mission=False
 
 error_message="hatalı mesaj"
-ip = "192.168.137.104"
+ip = "192.168.1.10"
 
 liveframe = prev_frame_obj
 normalframe = None
 telemetri = None
 
 vehicle = None
+arduino = None
+
+red_lower = np.array([160,100,20], np.uint8)
+red_upper = np.array([179,255,255], np.uint8)
+blue_lower = np.array([90, 125, 70], np.uint8)
+blue_upper = np.array([128, 245, 255], np.uint8)
+yellow_lower = np.array([22, 80, 0], np.uint8)
+yellow_upper = np.array([45, 170, 255], np.uint8)
 

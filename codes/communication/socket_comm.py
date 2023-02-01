@@ -8,7 +8,7 @@ import base64
 import sys
 import pickle
 import struct
-
+import json
 
 
 def mission_socket():
@@ -90,11 +90,19 @@ def label_socket():
             pass
 
 def telemetri_socket():
+    print(db.telemetri_obj)
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((db.ip, 9994))
     server.listen()
     client, client_adress = server.accept()   
-
+    print(db.telemetri_obj)
+    print(type(db.telemetri_obj.pitch))
+    print(type(db.telemetri_obj.roll))
     while True:
-        if db.telemetri is not None:
-            pass 
+        if db.telemetri_obj is not None:
+            db.telemetri_obj.update()
+            time.sleep(0.100)
+            message = {'pitch': db.telemetri_obj.pitch, 'roll': db.telemetri_obj.roll}
+            print(message)
+            client.send(json.dumps(message).encode())
+            
